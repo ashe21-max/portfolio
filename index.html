@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ashenafi Habte Atlaw | Full Stack Developer</title>
+
+    <!-- Remix Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/remixicon/fonts/remixicon.css" rel="stylesheet">
+
+    <!-- AOS Animation -->
+    <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="background"></div>
+
+    <div class="computer-badge" id="computer-badge" title="Click to reveal computer science badge">
+        <span class="badge-icon"><i class="ri-computer-line"></i></span>
+        <span class="badge-label">CS</span>
+        <div class="badge-splash hidden" id="badge-splash">
+            <span>I AM ASHENAFI HABTE</span>
+            <span>WITH COMPUTER SCIENCE</span>
+        </div>
+    </div>
+
+    <header class="header">
+        <nav class="nav container">
+            <a href="#home" class="logo">
+                <img src="ashuman.png" alt="Ashenafi logo" class="logo-image">
+                <span>Ashenafi</span>
+            </a>
+
+            <div class="nav-menu">
+                <a href="#home" data-i18n="nav-home">Home</a>
+                <a href="#about" data-i18n="nav-about">About</a>
+                <a href="#skills" data-i18n="nav-skills">Skills</a>
+                <a href="#projects" data-i18n="nav-projects">Projects</a>
+                <a href="#education" data-i18n="nav-education">Education</a>
+                <a href="#contact" data-i18n="nav-contact">Contact</a>
+            </div>
+
+            <div class="nav-actions">
+                <div class="language-switch">
+                    <button class="lang-toggle active" data-lang="en">EN</button>
+                    <button class="lang-toggle" data-lang="am">AM</button>
+                </div>
+                <div class="brightness-control">
+                    <button class="brightness-btn" data-action="decrease" aria-label="Decrease brightness">-</button>
+                    <input type="range" min="0.7" max="1.3" step="0.05" value="1" class="brightness-range" aria-label="Brightness slider">
+                    <button class="brightness-btn" data-action="increase" aria-label="Increase brightness">+</button>
+                </div>
+                <button class="gallery-btn" id="gallery-btn" aria-label="Open secret gallery">
+                    <i class="ri-gallery-line"></i>
+                </button>
+                <button class="theme-toggle" aria-label="Toggle theme">
+                    <i class="ri-moon-line"></i>
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <div class="gallery-panel hidden" id="gallery-panel" aria-hidden="true">
+        <div class="gallery-panel-content">
+            <div class="gallery-panel-head">
+                <div>
+                    <h3>Secret Photo Gallery</h3>
+                    <p>Use the secret key to add, view, and delete saved photos.</p>
+                </div>
+                <button class="close-btn" id="gallery-close" aria-label="Close gallery panel">
+                    <i class="ri-close-line"></i>
+                </button>
+            </div>
+
+            <div class="gallery-controls">
+                <button class="btn btn-outline" id="gallery-add-btn">Add Photo</button>
+                <button class="btn btn-outline danger" id="gallery-clear-btn">Clear All</button>
+                <input type="file" id="gallery-photo-input" accept="image/*" capture="environment" class="hidden-input">
+            </div>
+
+            <div class="gallery-empty" id="gallery-empty">No photos saved yet. Add one to keep it here.</div>
+            <div class="gallery-thumbnails" id="gallery-thumbnails"></div>
+        </div>
+    </div>
+
+    <main>
+        <section class="hero section" id="home">
+            <div class="hero-container container">
+                <div class="hero-content" data-aos="fade-right">
+                    <span class="eyebrow" data-i18n="hero-intro">Hello, I'm</span>
+                    <h1 class="hero-title">ASHENAFI HABTE ATLAW</h1>
+                    <p class="hero-role"><span class="typing"></span></p>
+                    <p class="hero-copy" data-i18n="hero-copy">Professional Full Stack Developer focused on modern web systems, backend APIs, database architecture, and polished user experiences.</p>
+
+                    <div class="hero-buttons">
+                        <a href="last cv-ocr.pdf" class="btn" download data-i18n="hero-download">Download CV</a>
+                        <a href="#contact" class="btn btn-outline" data-i18n="hero-contact">Contact Me</a>
+                    </div>
+
+                    <div class="hero-links">
+                        <a href="https://github.com/ashe21-max" target="_blank" rel="noreferrer">
+                            <i class="ri-github-fill"></i>
+                        </a>
+                        <a href="https://www.linkedin.com/in/ashenafi-habte-233167404" target="_blank" rel="noreferrer">
+                            <i class="ri-linkedin-box-fill"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="hero-image" data-aos="fade-left">
+                    <img src="ashu.png" alt="Ashenafi Habte" id="profile-photo">
+                    <div class="profile-photo-action" id="profile-photo-action" title="Click to update profile photo">
+                        <i class="ri-camera-line"></i>
+                        <input type="file" id="profile-photo-input" accept="image/*" capture="environment" class="profile-photo-input-hidden">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="about section" id="about">
+            <div class="container">
+                <h2 class="section-title" data-i18n="about-title">About Me</h2>
+
+                <div class="about-container">
+                    <div class="about-image" data-aos="zoom-in">
+                        <img src="ashu.png" alt="Ashenafi Habte">
+                    </div>
+
+                    <div class="about-content" data-aos="fade-left">
+                        <p data-i18n="about-copy">
+                            I am a Computer Science student at University of Gondar, building reliable backend systems with PHP, Java, PostgreSQL, and professional interfaces with HTML/CSS and Tailwind CSS.
+                        </p>
+
+                        <div class="info-grid">
+                            <div>
+                                <strong data-i18n="label-name">Name</strong>
+                                <span>ASHENAFI HABTE ATLAW</span>
+                            </div>
+                            <div>
+                                <strong data-i18n="label-sex">Sex</strong>
+                                <span>M</span>
+                            </div>
+                            <div>
+                                <strong data-i18n="label-age">Age</strong>
+                                <span id="age-value" data-birthdate="2004-12-27">22</span>
+                            </div>
+                            <div>
+                                <strong data-i18n="label-dob">Date of birth</strong>
+                                <span>27/12/2004 G.C</span>
+                            </div>
+                            <div>
+                                <strong data-i18n="label-place">Place of birth</strong>
+                                <span>Ataye</span>
+                            </div>
+                            <div>
+                                <strong data-i18n="label-current-address">Current address</strong>
+                                <span>Gondar</span>
+                            </div>
+                            <div>
+                                <strong data-i18n="label-email">Email</strong>
+                                <span>ashenafih774@gmail.com</span>
+                            </div>
+                            <div>
+                                <strong data-i18n="label-phone">Phone</strong>
+                                <span>+251997278931</span>
+                            </div>
+                            <div>
+                                <strong data-i18n="label-github">Github</strong>
+                                <span><a href="https://github.com/ashe21-max" target="_blank" rel="noreferrer">github.com/ashe21-max</a></span>
+                            </div>
+                            <div>
+                                <strong data-i18n="label-nationality">Nationality</strong>
+                                <span>Ethiopian</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="skills section" id="skills">
+            <div class="container">
+                <h2 class="section-title" data-i18n="skills-title">Technical Skills</h2>
+                <div class="skills-container">
+                    <div class="skill">
+                        <h3>PHP</h3>
+                        <div class="bar"><span style="width:92%"></span></div>
+                    </div>
+                    <div class="skill">
+                        <h3>Java</h3>
+                        <div class="bar"><span style="width:88%"></span></div>
+                    </div>
+                    <div class="skill">
+                        <h3>PostgreSQL</h3>
+                        <div class="bar"><span style="width:86%"></span></div>
+                    </div>
+                    <div class="skill">
+                        <h3>HTML/CSSJS</h3>
+                        <div class="bar"><span style="width:90%"></span></div>
+                    </div>
+                    <div class="skill">
+                        <h3>MySQL</h3>
+                        <div class="bar"><span style="width:84%"></span></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="projects section" id="projects">
+            <div class="container">
+                <h2 class="section-title" data-i18n="projects-title">Projects</h2>
+                <div class="projects-container">
+                    <div class="project-card" data-aos="flip-left">
+                        <h3>Housing Allocation Portal</h3>
+                        <p data-i18n="project-housing">A university housing allocation portal built using PostgreSQL with Drizzle ORM and Tailwind CSS frontend.</p>
+                        <a class="project-link" href="https://github.com/ashe21-max/HousingAllocationPortal_UOG" target="_blank" rel="noreferrer">View Repository</a>
+                    </div>
+                    <div class="project-card" data-aos="flip-left">
+                        <h3>File Uploading System</h3>
+                        <p data-i18n="project-upload">File management and storage system built with PHP backend and HTML/CSS frontend, focused on secure uploading and file handling.</p>
+                        <a class="project-link" href="https://github.com/ashe21-max/ONLINE-SHOPPING-" target="_blank" rel="noreferrer">View Repository</a>
+                    </div>
+                    <div class="project-card" data-aos="flip-left">
+                        <h3>Online Shopping System</h3>
+                        <p data-i18n="project-shopping">Java desktop application with MySQL database integration, demonstrating inventory management and purchase workflows.</p>
+                        <a class="project-link" href="https://github.com/ashe21-max/3rd-year-project" target="_blank" rel="noreferrer">View Repository</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="details section" id="details">
+            <div class="container">
+                <h2 class="section-title" data-i18n="details-title">CV Details</h2>
+                <div class="details-grid">
+                    <div class="detail-card" data-aos="fade-up">
+                        <h3 data-i18n="achievement-title">Academic Achievement</h3>
+                        <p data-i18n="achievement-copy">Expected B.Sc. Degree in Computer Science from University of Gondar on June 28, 2026 G.C. with GPA 3.54. Internship in Adama Tseday Bank.</p>
+                    </div>
+                    <div class="detail-card" data-aos="fade-up">
+                        <h3 data-i18n="security-title">Security Clearance</h3>
+                        <p data-i18n="security-copy">I confirm I have never been convicted of any crime, do not have any serious illness or physical disability, and am not involved in drug use or drug-related activities.</p>
+                    </div>
+                    <div class="detail-card" data-aos="fade-up">
+                        <h3 data-i18n="hobbies-title">Hobbies & Interests</h3>
+                        <p data-i18n="hobbies-copy">I enjoy software development, reading the Holy Bible and educational technology materials, solving technical problems, practicing coding, and participating in voluntary community work.</p>
+                    </div>
+                    <div class="detail-card" data-aos="fade-up">
+                        <h3 data-i18n="reference-title">Reference</h3>
+                        <p data-i18n="reference-copy">Student Bandaraw Woretaw, University of Gondar CS department representative.</p>
+                        <p data-i18n="reference-contact">Mob: +251954568588 · Email: bandis1922@gmial.com</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="education section" id="education">
+            <div class="container">
+                <h2 class="section-title" data-i18n="education-title">Education</h2>
+                <div class="timeline">
+                    <div class="timeline-item" data-aos="fade-up">
+                        <h3 data-i18n="education-university">BSc Degree in Computer Science</h3>
+                        <span data-i18n="education-place">University of Gondar</span>
+                        <p data-i18n="education-details">Expected June 28, 2026 · GPA 3.54</p>
+                    </div>
+                    <div class="timeline-item" data-aos="fade-up">
+                        <h3 data-i18n="education-prep">Preparatory School</h3>
+                        <span>Gadilober Preparatory School</span>
+                        <p>2020 - 2022 G.C</p>
+                    </div>
+                    <div class="timeline-item" data-aos="fade-up">
+                        <h3 data-i18n="education-high">High School</h3>
+                        <span>Gadilober Secondary School</span>
+                        <p>2018 - 2020 G.C</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="contact section" id="contact">
+            <div class="container">
+                <h2 class="section-title" data-i18n="contact-title">Contact Me</h2>
+                <div class="contact-grid">
+                    <div class="contact-card">
+                        <i class="ri-mail-fill"></i>
+                        <h4 data-i18n="contact-email-title">Email</h4>
+                        <p>ashenafih774@gmail.com</p>
+                    </div>
+                    <div class="contact-card">
+                        <i class="ri-phone-fill"></i>
+                        <h4 data-i18n="contact-phone-title">Phone</h4>
+                        <p>+251997278931</p>
+                    </div>
+                    <div class="contact-card">
+                        <i class="ri-map-pin-fill"></i>
+                        <h4 data-i18n="contact-location-title">Location</h4>
+                        <p>Gondar, Ethiopia</p>
+                    </div>
+                </div>
+
+                <div class="contact-form-wrapper" data-aos="fade-up">
+                    <form id="contact-form" class="contact-form">
+                        <div class="form-grid">
+                            <label>
+                                <span data-i18n="form-name">Full Name</span>
+                                <input type="text" name="name" placeholder="Ashenafi Habte" required>
+                            </label>
+                            <label>
+                                <span data-i18n="form-email">Email Address</span>
+                                <input type="email" name="email" placeholder="you@example.com" required>
+                            </label>
+                            <label>
+                                <span data-i18n="form-phone">Phone</span>
+                                <input type="tel" name="phone" placeholder="+251 99 727 8931" required>
+                            </label>
+                            <label>
+                                <span data-i18n="form-subject">Subject</span>
+                                <input type="text" name="subject" placeholder="Job Opportunity" required>
+                            </label>
+                        </div>
+                        <label>
+                            <span data-i18n="form-message">Message</span>
+                            <textarea name="message" rows="5" placeholder="Tell me how I can help you." required></textarea>
+                        </label>
+                        <button type="submit" class="btn submit-btn" data-i18n="form-submit">Send Message</button>
+                        <p class="form-status" id="form-status"></p>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <p>© 2026 Ashenafi Habte. All Rights Reserved.</p>
+    </footer>
+
+    <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>

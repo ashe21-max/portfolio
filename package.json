@@ -1,0 +1,12 @@
+{
+  "name": "ashenafi-portfolio",
+  "version": "1.0.0",
+  "description": "Portfolio website for Ashenafi Habte with contact backend.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.4"
+  }
+}
