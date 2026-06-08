@@ -23,7 +23,9 @@ app.post('/contact', (req, res) => {
     return res.json({ status: 'success', message: 'Thank you for reaching out. I will contact you shortly.' });
 });
 
-app.get('*', (req, res) => {
+app.get('*', (req, res, next) => {
+    // If the request looks like a file (has an extension), pass to static middleware
+    if (path.extname(req.path)) return next();
     res.sendFile(path.join(__dirname, 'index.html'));
 });
 
