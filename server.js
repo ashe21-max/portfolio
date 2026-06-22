@@ -1,9 +1,7 @@
 const express = require('express');
 const path = require('path');
-<<<<<<< HEAD
 const fs = require('fs').promises;
-=======
->>>>>>> 91678e13a772ac58d0ac572432dd0a285e357897
+
 const app = express();
 const port = process.env.PORT || 3000;
 
@@ -11,7 +9,6 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, '/')));
 
-<<<<<<< HEAD
 const PROJECTS_FILE = path.join(__dirname, 'projects.json');
 
 async function loadProjects() {
@@ -53,8 +50,6 @@ async function saveProjects(projects) {
     }
 })();
 
-=======
->>>>>>> 91678e13a772ac58d0ac572432dd0a285e357897
 app.post('/contact', (req, res) => {
     const { name, email, phone, subject, message } = req.body;
     if (!name || !email || !subject || !message) {
@@ -71,7 +66,6 @@ app.post('/contact', (req, res) => {
     return res.json({ status: 'success', message: 'Thank you for reaching out. I will contact you shortly.' });
 });
 
-<<<<<<< HEAD
 // Projects API
 app.get('/api/projects', async (req, res) => {
     const projects = await loadProjects();
@@ -93,12 +87,18 @@ app.post('/api/projects', async (req, res) => {
     }
 });
 
+// Handle invalid JSON bodies gracefully (avoid crashing on parse errors)
+app.use((err, req, res, next) => {
+    if (err instanceof SyntaxError && err.status === 400 && 'body' in err) {
+        console.warn('Invalid JSON received');
+        return res.status(400).json({ error: 'Invalid JSON' });
+    }
+    next(err);
+});
+
+// Catch-all: if the request doesn't look like a static file, serve index.html (SPA)
 app.get('*', (req, res, next) => {
-    // If the request looks like a file (has an extension), pass to static middleware
     if (path.extname(req.path)) return next();
-=======
-app.get('*', (req, res) => {
->>>>>>> 91678e13a772ac58d0ac572432dd0a285e357897
     res.sendFile(path.join(__dirname, 'index.html'));
 });
 
