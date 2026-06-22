@@ -180,9 +180,13 @@ function initContactForm() {
     const form = document.getElementById('contact-form');
     const status = document.getElementById('form-status');
 
+<<<<<<< HEAD
     if (!form || !status) return;
 
     form.addEventListener('submit', async (event) => {
+=======
+    form.addEventListener('submit', (event) => {
+>>>>>>> 91678e13a772ac58d0ac572432dd0a285e357897
         event.preventDefault();
         status.textContent = '';
 
@@ -199,6 +203,7 @@ function initContactForm() {
             message: form.message.value.trim()
         };
 
+<<<<<<< HEAD
         try {
             const response = await fetch('/contact', {
                 method: 'POST',
@@ -223,6 +228,12 @@ function initContactForm() {
             status.textContent = 'Network error. Please try again later.';
             status.style.color = '#ef4444';
         }
+=======
+        const mailto = `mailto:ashenafih774@gmail.com?subject=${encodeURIComponent(formData.subject)}&body=${encodeURIComponent(`Name: ${formData.name}%0D%0AEmail: ${formData.email}%0D%0APhone: ${formData.phone}%0D%0A%0D%0A${formData.message}`)}`;
+        window.location.href = mailto;
+        status.textContent = 'Opening email client so you can send your message directly.';
+        form.reset();
+>>>>>>> 91678e13a772ac58d0ac572432dd0a285e357897
     });
 }
 
@@ -258,6 +269,7 @@ window.addEventListener('DOMContentLoaded', () => {
     const galleryThumbnails = document.getElementById('gallery-thumbnails');
     const galleryEmpty = document.getElementById('gallery-empty');
     const GALLERY_STORAGE_KEY = 'secretGalleryPhotos';
+<<<<<<< HEAD
 
     if (!profilePhotoInput || !profilePhotoAction || !profilePhoto) {
         console.error('Profile photo elements not found');
@@ -266,6 +278,8 @@ window.addEventListener('DOMContentLoaded', () => {
     if (!galleryBtn || !galleryPanel || !galleryClose || !galleryAddBtn || !galleryClearBtn || !galleryPhotoInput || !galleryThumbnails || !galleryEmpty) {
         console.error('Gallery elements not found');
     }
+=======
+>>>>>>> 91678e13a772ac58d0ac572432dd0a285e357897
     
     function calculateAgeFromBirthdate(birthdate) {
         const [year, month, day] = birthdate.split('-').map(Number);
@@ -286,6 +300,12 @@ window.addEventListener('DOMContentLoaded', () => {
         ageElement.textContent = calculateAgeFromBirthdate(birthdate);
     }
 
+<<<<<<< HEAD
+=======
+    updateAgeValue();
+    initProfilePhoto();
+
+>>>>>>> 91678e13a772ac58d0ac572432dd0a285e357897
     function initProfilePhoto() {
         const savedPhoto = localStorage.getItem('profilePhotoDataUrl');
         if (savedPhoto) {
@@ -294,6 +314,7 @@ window.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+<<<<<<< HEAD
     updateAgeValue();
     initProfilePhoto();
 
@@ -308,12 +329,27 @@ window.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
+=======
+    profilePhotoAction.addEventListener('click', () => {
+        const entered = window.prompt('Enter secret key to change profile photo:');
+        if (entered === PROFILE_SECRET) {
+            profilePhotoInput.setAttribute('capture', 'environment');
+            profilePhotoInput.click();
+        } else if (entered !== null) {
+            window.alert('Secret key incorrect.');
+        }
+    });
+>>>>>>> 91678e13a772ac58d0ac572432dd0a285e357897
 
     function loadProfilePhoto(file) {
         const reader = new FileReader();
         reader.onload = () => {
             const dataUrl = reader.result;
+<<<<<<< HEAD
             if (profilePhoto) profilePhoto.src = dataUrl;
+=======
+            profilePhoto.src = dataUrl;
+>>>>>>> 91678e13a772ac58d0ac572432dd0a285e357897
             if (aboutPhoto) aboutPhoto.src = dataUrl;
             localStorage.setItem('profilePhotoDataUrl', dataUrl);
             window.alert('Profile photo updated successfully.');
@@ -321,6 +357,7 @@ window.addEventListener('DOMContentLoaded', () => {
         reader.readAsDataURL(file);
     }
 
+<<<<<<< HEAD
     if (profilePhotoInput) {
         profilePhotoInput.addEventListener('change', (event) => {
             const file = event.target.files[0];
@@ -385,6 +422,58 @@ window.addEventListener('DOMContentLoaded', () => {
             deleteGalleryPhoto(index);
         });
     }
+=======
+    profilePhotoInput.addEventListener('change', (event) => {
+        const file = event.target.files[0];
+        if (file && file.type.startsWith('image/')) {
+            loadProfilePhoto(file);
+        }
+        profilePhotoInput.value = '';
+    });
+
+    galleryBtn.addEventListener('click', () => {
+        const entered = window.prompt('Enter secret key to open gallery:');
+        if (entered === PROFILE_SECRET) {
+            openGalleryPanel();
+        } else if (entered !== null) {
+            window.alert('Secret key incorrect.');
+        }
+    });
+
+    galleryClose.addEventListener('click', closeGalleryPanel);
+    galleryAddBtn.addEventListener('click', () => {
+        galleryPhotoInput.setAttribute('capture', 'environment');
+        galleryPhotoInput.click();
+    });
+
+    galleryClearBtn.addEventListener('click', () => {
+        if (!window.confirm('Clear all saved gallery photos?')) return;
+        localStorage.removeItem(GALLERY_STORAGE_KEY);
+        renderGallery();
+    });
+
+    galleryPhotoInput.addEventListener('change', (event) => {
+        const file = event.target.files[0];
+        if (file && file.type.startsWith('image/')) {
+            const reader = new FileReader();
+            reader.onload = () => {
+                const photos = getGalleryPhotos();
+                photos.unshift(reader.result);
+                saveGalleryPhotos(photos);
+                renderGallery();
+            };
+            reader.readAsDataURL(file);
+        }
+        galleryPhotoInput.value = '';
+    });
+
+    galleryThumbnails.addEventListener('click', (event) => {
+        const deleteButton = event.target.closest('.gallery-delete-btn');
+        if (!deleteButton) return;
+        const index = Number(deleteButton.dataset.index);
+        deleteGalleryPhoto(index);
+    });
+>>>>>>> 91678e13a772ac58d0ac572432dd0a285e357897
 
     function getGalleryPhotos() {
         const stored = localStorage.getItem(GALLERY_STORAGE_KEY);
@@ -396,7 +485,10 @@ window.addEventListener('DOMContentLoaded', () => {
     }
 
     function renderGallery() {
+<<<<<<< HEAD
         if (!galleryThumbnails || !galleryEmpty) return;
+=======
+>>>>>>> 91678e13a772ac58d0ac572432dd0a285e357897
         const photos = getGalleryPhotos();
         galleryThumbnails.innerHTML = '';
         if (photos.length === 0) {
@@ -418,14 +510,20 @@ window.addEventListener('DOMContentLoaded', () => {
     }
 
     function openGalleryPanel() {
+<<<<<<< HEAD
         if (!galleryPanel) return;
+=======
+>>>>>>> 91678e13a772ac58d0ac572432dd0a285e357897
         galleryPanel.classList.remove('hidden');
         galleryPanel.setAttribute('aria-hidden', 'false');
         renderGallery();
     }
 
     function closeGalleryPanel() {
+<<<<<<< HEAD
         if (!galleryPanel) return;
+=======
+>>>>>>> 91678e13a772ac58d0ac572432dd0a285e357897
         galleryPanel.classList.add('hidden');
         galleryPanel.setAttribute('aria-hidden', 'true');
     }
@@ -469,17 +567,26 @@ window.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+<<<<<<< HEAD
     const brightnessRange = document.querySelector('.brightness-range');
     if (brightnessRange) {
         brightnessRange.addEventListener('input', (event) => {
             updateBrightness(event.target.value);
         });
     }
+=======
+    document.querySelector('.brightness-range').addEventListener('input', (event) => {
+        updateBrightness(event.target.value);
+    });
+>>>>>>> 91678e13a772ac58d0ac572432dd0a285e357897
 
     document.querySelectorAll('.brightness-btn').forEach((button) => {
         button.addEventListener('click', () => {
             const range = document.querySelector('.brightness-range');
+<<<<<<< HEAD
             if (!range) return;
+=======
+>>>>>>> 91678e13a772ac58d0ac572432dd0a285e357897
             let value = parseFloat(range.value);
             value = button.dataset.action === 'increase' ? Math.min(1.3, value + 0.05) : Math.max(0.7, value - 0.05);
             range.value = value.toFixed(2);
@@ -489,6 +596,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
     initBrightness();
 
+<<<<<<< HEAD
     const themeToggle = document.querySelector('.theme-toggle');
     if (themeToggle) {
         themeToggle.addEventListener('click', () => {
@@ -592,4 +700,11 @@ window.addEventListener('DOMContentLoaded', () => {
 
     // initial load
     fetchProjects();
+=======
+    document.querySelector('.theme-toggle').addEventListener('click', () => {
+        document.body.classList.toggle('light-theme');
+        localStorage.setItem('portfolioTheme', document.body.classList.contains('light-theme') ? 'light' : 'dark');
+        updateThemeIcon();
+    });
+>>>>>>> 91678e13a772ac58d0ac572432dd0a285e357897
 });
