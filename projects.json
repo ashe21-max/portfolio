@@ -1,0 +1,22 @@
+[
+  {
+    "title": "Test Project",
+    "description": "Added by test",
+    "link": "https://example.com/repo"
+  },
+  {
+    "title": "Housing Allocation Portal",
+    "description": "A university housing allocation portal built using PostgreSQL with Drizzle ORM and Tailwind CSS frontend.",
+    "link": "https://github.com/ashe21-max/HousingAllocationPortal_UOG"
+  },
+  {
+    "title": "File Uploading System",
+    "description": "File management and storage system built with PHP backend and HTML/CSS frontend, focused on secure uploading and file handling.",
+    "link": "https://github.com/ashe21-max/ONLINE-SHOPPING-"
+  },
+  {
+    "title": "Online Shopping System",
+    "description": "Java desktop application with MySQL database integration, demonstrating inventory management and purchase workflows.",
+    "link": "https://github.com/ashe21-max/3rd-year-project"
+  }
+]

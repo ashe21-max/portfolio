@@ -146,11 +146,11 @@
                             </div>
                             <div>
                                 <strong data-i18n="label-age">Age</strong>
-                                <span id="age-value" data-birthdate="2004-12-27">22</span>
+                                <span id="age-value" data-birthdate="2003-12-29">22</span>
                             </div>
                             <div>
                                 <strong data-i18n="label-dob">Date of birth</strong>
-                                <span>27/12/2004 G.C</span>
+                                <span>29/12/2003 G.C</span>
                             </div>
                             <div>
                                 <strong data-i18n="label-place">Place of birth</strong>
@@ -213,6 +213,9 @@
         <section class="projects section" id="projects">
             <div class="container">
                 <h2 class="section-title" data-i18n="projects-title">Projects</h2>
+                <div class="projects-actions">
+                    <button class="btn btn-outline" id="add-project-btn">Add Project</button>
+                </div>
                 <div class="projects-container">
                     <div class="project-card" data-aos="flip-left">
                         <h3>Housing Allocation Portal</h3>
@@ -341,6 +344,19 @@
     <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
     <script src="script.js"></script>
+    <!-- Add Project Modal -->
+    <div class="modal hidden" id="add-project-modal" aria-hidden="true">
+        <div class="modal-content">
+            <button class="close-btn" id="add-project-close"><i class="ri-close-line"></i></button>
+            <h3>Add Project</h3>
+            <form id="add-project-form">
+                <label>Title<input name="title" required></label>
+                <label>Description<textarea name="description" required></textarea></label>
+                <label>Repository Link<input name="link" type="url" required></label>
+                <button type="submit" class="btn">Add</button>
+            </form>
+        </div>
+    </div>
 </body>
 
 </html>

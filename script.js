@@ -180,7 +180,9 @@ function initContactForm() {
     const form = document.getElementById('contact-form');
     const status = document.getElementById('form-status');
 
-    form.addEventListener('submit', (event) => {
+    if (!form || !status) return;
+
+    form.addEventListener('submit', async (event) => {
         event.preventDefault();
         status.textContent = '';
 
@@ -197,10 +199,30 @@ function initContactForm() {
             message: form.message.value.trim()
         };
 
-        const mailto = `mailto:ashenafih774@gmail.com?subject=${encodeURIComponent(formData.subject)}&body=${encodeURIComponent(`Name: ${formData.name}%0D%0AEmail: ${formData.email}%0D%0APhone: ${formData.phone}%0D%0A%0D%0A${formData.message}`)}`;
-        window.location.href = mailto;
-        status.textContent = 'Opening email client so you can send your message directly.';
-        form.reset();
+        try {
+            const response = await fetch('/contact', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formData)
+            });
+
+            const result = await response.json();
+
+            if (response.ok) {
+                status.textContent = result.message || 'Message sent successfully!';
+                status.style.color = '#81e6d9';
+                form.reset();
+            } else {
+                status.textContent = result.error || 'Failed to send message. Please try again.';
+                status.style.color = '#ef4444';
+            }
+        } catch (error) {
+            console.error('Error submitting form:', error);
+            status.textContent = 'Network error. Please try again later.';
+            status.style.color = '#ef4444';
+        }
     });
 }
 
@@ -236,6 +258,14 @@ window.addEventListener('DOMContentLoaded', () => {
     const galleryThumbnails = document.getElementById('gallery-thumbnails');
     const galleryEmpty = document.getElementById('gallery-empty');
     const GALLERY_STORAGE_KEY = 'secretGalleryPhotos';
+
+    if (!profilePhotoInput || !profilePhotoAction || !profilePhoto) {
+        console.error('Profile photo elements not found');
+    }
+
+    if (!galleryBtn || !galleryPanel || !galleryClose || !galleryAddBtn || !galleryClearBtn || !galleryPhotoInput || !galleryThumbnails || !galleryEmpty) {
+        console.error('Gallery elements not found');
+    }
     
     function calculateAgeFromBirthdate(birthdate) {
         const [year, month, day] = birthdate.split('-').map(Number);
@@ -256,9 +286,6 @@ window.addEventListener('DOMContentLoaded', () => {
         ageElement.textContent = calculateAgeFromBirthdate(birthdate);
     }
 
-    updateAgeValue();
-    initProfilePhoto();
-
     function initProfilePhoto() {
         const savedPhoto = localStorage.getItem('profilePhotoDataUrl');
         if (savedPhoto) {
@@ -267,21 +294,26 @@ window.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    profilePhotoAction.addEventListener('click', () => {
-        const entered = window.prompt('Enter secret key to change profile photo:');
-        if (entered === PROFILE_SECRET) {
-            profilePhotoInput.setAttribute('capture', 'environment');
-            profilePhotoInput.click();
-        } else if (entered !== null) {
-            window.alert('Secret key incorrect.');
-        }
-    });
+    updateAgeValue();
+    initProfilePhoto();
+
+    if (profilePhotoAction && profilePhotoInput) {
+        profilePhotoAction.addEventListener('click', () => {
+            const entered = window.prompt('Enter secret key to change profile photo:');
+            if (entered === PROFILE_SECRET) {
+                profilePhotoInput.setAttribute('capture', 'environment');
+                profilePhotoInput.click();
+            } else if (entered !== null) {
+                window.alert('Secret key incorrect.');
+            }
+        });
+    }
 
     function loadProfilePhoto(file) {
         const reader = new FileReader();
         reader.onload = () => {
             const dataUrl = reader.result;
-            profilePhoto.src = dataUrl;
+            if (profilePhoto) profilePhoto.src = dataUrl;
             if (aboutPhoto) aboutPhoto.src = dataUrl;
             localStorage.setItem('profilePhotoDataUrl', dataUrl);
             window.alert('Profile photo updated successfully.');
@@ -289,56 +321,70 @@ window.addEventListener('DOMContentLoaded', () => {
         reader.readAsDataURL(file);
     }
 
-    profilePhotoInput.addEventListener('change', (event) => {
-        const file = event.target.files[0];
-        if (file && file.type.startsWith('image/')) {
-            loadProfilePhoto(file);
-        }
-        profilePhotoInput.value = '';
-    });
+    if (profilePhotoInput) {
+        profilePhotoInput.addEventListener('change', (event) => {
+            const file = event.target.files[0];
+            if (file && file.type.startsWith('image/')) {
+                loadProfilePhoto(file);
+            }
+            profilePhotoInput.value = '';
+        });
+    }
 
-    galleryBtn.addEventListener('click', () => {
-        const entered = window.prompt('Enter secret key to open gallery:');
-        if (entered === PROFILE_SECRET) {
-            openGalleryPanel();
-        } else if (entered !== null) {
-            window.alert('Secret key incorrect.');
-        }
-    });
+    if (galleryBtn) {
+        galleryBtn.addEventListener('click', () => {
+            const entered = window.prompt('Enter secret key to open gallery:');
+            if (entered === PROFILE_SECRET) {
+                openGalleryPanel();
+            } else if (entered !== null) {
+                window.alert('Secret key incorrect.');
+            }
+        });
+    }
 
-    galleryClose.addEventListener('click', closeGalleryPanel);
-    galleryAddBtn.addEventListener('click', () => {
-        galleryPhotoInput.setAttribute('capture', 'environment');
-        galleryPhotoInput.click();
-    });
+    if (galleryClose) galleryClose.addEventListener('click', closeGalleryPanel);
+    if (galleryAddBtn) {
+        galleryAddBtn.addEventListener('click', () => {
+            if (galleryPhotoInput) {
+                galleryPhotoInput.setAttribute('capture', 'environment');
+                galleryPhotoInput.click();
+            }
+        });
+    }
 
-    galleryClearBtn.addEventListener('click', () => {
-        if (!window.confirm('Clear all saved gallery photos?')) return;
-        localStorage.removeItem(GALLERY_STORAGE_KEY);
-        renderGallery();
-    });
+    if (galleryClearBtn) {
+        galleryClearBtn.addEventListener('click', () => {
+            if (!window.confirm('Clear all saved gallery photos?')) return;
+            localStorage.removeItem(GALLERY_STORAGE_KEY);
+            renderGallery();
+        });
+    }
 
-    galleryPhotoInput.addEventListener('change', (event) => {
-        const file = event.target.files[0];
-        if (file && file.type.startsWith('image/')) {
-            const reader = new FileReader();
-            reader.onload = () => {
-                const photos = getGalleryPhotos();
-                photos.unshift(reader.result);
-                saveGalleryPhotos(photos);
-                renderGallery();
-            };
-            reader.readAsDataURL(file);
-        }
-        galleryPhotoInput.value = '';
-    });
+    if (galleryPhotoInput) {
+        galleryPhotoInput.addEventListener('change', (event) => {
+            const file = event.target.files[0];
+            if (file && file.type.startsWith('image/')) {
+                const reader = new FileReader();
+                reader.onload = () => {
+                    const photos = getGalleryPhotos();
+                    photos.unshift(reader.result);
+                    saveGalleryPhotos(photos);
+                    renderGallery();
+                };
+                reader.readAsDataURL(file);
+            }
+            galleryPhotoInput.value = '';
+        });
+    }
 
-    galleryThumbnails.addEventListener('click', (event) => {
-        const deleteButton = event.target.closest('.gallery-delete-btn');
-        if (!deleteButton) return;
-        const index = Number(deleteButton.dataset.index);
-        deleteGalleryPhoto(index);
-    });
+    if (galleryThumbnails) {
+        galleryThumbnails.addEventListener('click', (event) => {
+            const deleteButton = event.target.closest('.gallery-delete-btn');
+            if (!deleteButton) return;
+            const index = Number(deleteButton.dataset.index);
+            deleteGalleryPhoto(index);
+        });
+    }
 
     function getGalleryPhotos() {
         const stored = localStorage.getItem(GALLERY_STORAGE_KEY);
@@ -350,6 +396,7 @@ window.addEventListener('DOMContentLoaded', () => {
     }
 
     function renderGallery() {
+        if (!galleryThumbnails || !galleryEmpty) return;
         const photos = getGalleryPhotos();
         galleryThumbnails.innerHTML = '';
         if (photos.length === 0) {
@@ -371,12 +418,14 @@ window.addEventListener('DOMContentLoaded', () => {
     }
 
     function openGalleryPanel() {
+        if (!galleryPanel) return;
         galleryPanel.classList.remove('hidden');
         galleryPanel.setAttribute('aria-hidden', 'false');
         renderGallery();
     }
 
     function closeGalleryPanel() {
+        if (!galleryPanel) return;
         galleryPanel.classList.add('hidden');
         galleryPanel.setAttribute('aria-hidden', 'true');
     }
@@ -420,13 +469,17 @@ window.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    document.querySelector('.brightness-range').addEventListener('input', (event) => {
-        updateBrightness(event.target.value);
-    });
+    const brightnessRange = document.querySelector('.brightness-range');
+    if (brightnessRange) {
+        brightnessRange.addEventListener('input', (event) => {
+            updateBrightness(event.target.value);
+        });
+    }
 
     document.querySelectorAll('.brightness-btn').forEach((button) => {
         button.addEventListener('click', () => {
             const range = document.querySelector('.brightness-range');
+            if (!range) return;
             let value = parseFloat(range.value);
             value = button.dataset.action === 'increase' ? Math.min(1.3, value + 0.05) : Math.max(0.7, value - 0.05);
             range.value = value.toFixed(2);
@@ -436,9 +489,107 @@ window.addEventListener('DOMContentLoaded', () => {
 
     initBrightness();
 
-    document.querySelector('.theme-toggle').addEventListener('click', () => {
-        document.body.classList.toggle('light-theme');
-        localStorage.setItem('portfolioTheme', document.body.classList.contains('light-theme') ? 'light' : 'dark');
-        updateThemeIcon();
+    const themeToggle = document.querySelector('.theme-toggle');
+    if (themeToggle) {
+        themeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('light-theme');
+            localStorage.setItem('portfolioTheme', document.body.classList.contains('light-theme') ? 'light' : 'dark');
+            updateThemeIcon();
+        });
+    }
+
+    // Projects: fetch, render, and add-new-project UI
+    const projectsContainer = document.querySelector('.projects-container');
+    const addProjectBtn = document.getElementById('add-project-btn');
+    const addProjectModal = document.getElementById('add-project-modal');
+    const addProjectClose = document.getElementById('add-project-close');
+    const addProjectForm = document.getElementById('add-project-form');
+
+    async function fetchProjects() {
+        try {
+            const res = await fetch('/api/projects');
+            const list = await res.json();
+            renderProjects(list);
+        } catch (err) {
+            console.error('Failed to load projects', err);
+        }
+    }
+
+    function renderProjects(list) {
+        if (!projectsContainer) return;
+        projectsContainer.innerHTML = '';
+        if (!list || list.length === 0) {
+            projectsContainer.innerHTML = '<p>No projects yet.</p>';
+            return;
+        }
+        list.forEach((p) => {
+            const card = document.createElement('div');
+            card.className = 'project-card';
+            card.innerHTML = `
+                <h3>${p.title}</h3>
+                <p>${p.description}</p>
+                <a class="project-link" href="${p.link}" target="_blank" rel="noreferrer">View Repository</a>
+            `;
+            projectsContainer.appendChild(card);
+        });
+    }
+
+    if (addProjectBtn) {
+        addProjectBtn.addEventListener('click', () => {
+            const entered = window.prompt('Enter secret key to add a project:');
+            if (entered === PROFILE_SECRET) {
+                if (addProjectModal) {
+                    addProjectModal.classList.remove('hidden');
+                    addProjectModal.setAttribute('aria-hidden', 'false');
+                }
+            } else if (entered !== null) {
+                window.alert('Secret key incorrect.');
+            }
+        });
+    }
+
+    if (addProjectClose) addProjectClose.addEventListener('click', () => {
+        if (addProjectModal) {
+            addProjectModal.classList.add('hidden');
+            addProjectModal.setAttribute('aria-hidden', 'true');
+        }
     });
+
+    if (addProjectForm) {
+        addProjectForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const fd = new FormData(addProjectForm);
+            const payload = {
+                title: fd.get('title').toString().trim(),
+                description: fd.get('description').toString().trim(),
+                link: fd.get('link').toString().trim()
+            };
+            if (!payload.title || !payload.description || !payload.link) {
+                window.alert('Please complete all fields');
+                return;
+            }
+            try {
+                const res = await fetch('/api/projects', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                if (!res.ok) throw new Error('Failed to add project');
+                const json = await res.json();
+                window.alert('Project added');
+                addProjectForm.reset();
+                if (addProjectModal) {
+                    addProjectModal.classList.add('hidden');
+                    addProjectModal.setAttribute('aria-hidden', 'true');
+                }
+                fetchProjects();
+            } catch (err) {
+                console.error(err);
+                window.alert('Failed to add project');
+            }
+        });
+    }
+
+    // initial load
+    fetchProjects();
 });
