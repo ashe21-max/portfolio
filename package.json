@@ -4,13 +4,9 @@
   "description": "Portfolio website for Ashenafi Habte with contact backend.",
   "main": "server.js",
   "scripts": {
-<<<<<<< HEAD
     "start": "node server.js",
     "dev": "node server.js",
     "test:smoke": "node test/smoke.js"
-=======
-    "start": "node server.js"
->>>>>>> 91678e13a772ac58d0ac572432dd0a285e357897
   },
   "dependencies": {
     "express": "^4.18.4"
